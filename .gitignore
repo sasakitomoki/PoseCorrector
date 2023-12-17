@@ -1,0 +1,6 @@
+.venv
+# imgフォルダ内のすべてを無視
+static/img/*
+
+# no_img.jpgを除外
+!static/img/no_img.jpg
