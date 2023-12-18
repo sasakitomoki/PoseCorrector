@@ -5,12 +5,12 @@
 
 ## セットアップ手順
 1. コマンドプロンプトで以下のコマンドを実行します。
-"""cmd
+```cmd
 python -m venv .venv
 .venv\Scripts\activate
 pip install -r requirements.txt
 python main.py
-"""
+
 2. ブラウザで`localhost:5000`にアクセスします。
 
 ## 使用手順
