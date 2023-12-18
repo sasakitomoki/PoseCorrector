@@ -10,6 +10,7 @@ python -m venv .venv
 .venv\Scripts\activate
 pip install -r requirements.txt
 python main.py
+```
 
 2. ブラウザで`localhost:5000`にアクセスします。
 
