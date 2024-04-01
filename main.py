@@ -1,8 +1,10 @@
-from flask import Flask,render_template,request,jsonify
 import os
 import shutil
+
 import numpy as np
 import pandas as pd
+
+from flask import Flask,render_template,request,jsonify
 
 app = Flask(__name__)
 
@@ -17,16 +19,22 @@ def select():
     csv_path = request.json["csv_path"]
     current_dir = os.getcwd()
 
-    img_list=os.listdir(img_folder_path)
-    img_name=sorted(img_list)[0][:-6]
+    if img_folder_path.startswith("~"):
+        img_folder_path = os.path.expanduser(img_folder_path)
+    img_list = [img for img in os.listdir(img_folder_path) if img.endswith(".jpg")]
+    img_name = sorted(img_list)[0][:-6]
     if not os.path.exists(os.path.join(current_dir,"static","img",img_name)):
+        os.makedirs(os.path.join(current_dir,"static","img",img_name), exist_ok=True)
         #画像アップロード
-        shutil.copytree(img_folder_path, os.path.join(current_dir,"static","img",img_name))
-
+        for img_path in img_list:
+            shutil.copy(os.path.join(img_folder_path,img_path), os.path.join(current_dir,"static","img",img_name,img_path))
     #画像の総数取得
     max_num = len(img_list)
 
-    return jsonify({"max_num":max_num,"img_name":img_name})
+    df = pd.read_csv(csv_path)
+    columns = [column[:-2] for column in df.columns if "_x" in column]
+
+    return jsonify({"max_num":max_num,"img_name":img_name,"columns":columns})
 
 #画像内をクリックしたときの処理
 @app.route('/img_click',methods=['POST'])
