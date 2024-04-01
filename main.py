@@ -30,11 +30,12 @@ def select():
             shutil.copy(os.path.join(img_folder_path,img_path), os.path.join(current_dir,"static","img",img_name,img_path))
     #画像の総数取得
     max_num = len(img_list)
-
+    #カラム名一覧をコンソールに表示
     df = pd.read_csv(csv_path)
     columns = [column[:-2] for column in df.columns if "_x" in column]
+    print(columns)
 
-    return jsonify({"max_num":max_num,"img_name":img_name,"columns":columns})
+    return jsonify({"max_num":max_num,"img_name":img_name})
 
 #画像内をクリックしたときの処理
 @app.route('/img_click',methods=['POST'])
